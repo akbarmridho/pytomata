@@ -142,14 +142,24 @@ symbols: List[StringLanguage] = [
 ]  # urutan harus sesuai prioritas
 
 symbols_regexp_grouped = r"|".join(
-    ['|'.join(f"({sym})" if sym != OR.pattern else f"{OR.pattern}" for sym in symbol.pattern.split('|'))
+    ['|'.join(f"({sym})" for sym in symbol.pattern.split('|')) if symbol != OR.pattern else f"({OR.pattern})"
      for symbol in symbols])
 
 symbols_regexp_replacement: List[str] = []
 
 for symbol in symbols:
-    symbols_regexp_replacement.extend(
-        [f" {sym} " if sym != OR.pattern else f" {OR.pattern} " for sym in symbol.pattern.split('|')])
+    if symbol == OR.pattern:
+        symbols_regexp_replacement.append(f" {OR.pattern} ")
+    else:
+        symbols_regexp_replacement.extend(
+            [f" {sym} " for sym in symbol.pattern.split('|')])
+
+
+symbols_regexp_replacement_val: List[str] = []
+
+for symbol in symbols:  # group replacement for symbols
+    symbols_regexp_replacement_val.extend(
+        [symbol.value for _ in symbol.pattern.split('|')])
 
 """Convertable
 """
@@ -162,4 +172,4 @@ COMMENT = StringLanguage(
 INVALID_VARIABLE = StringLanguage(
     value="number variable", pattern=r"[0-9]+[a-zA-Z_]\w*")
 VARIABLE = StringLanguage(
-    value="variable", pattern=rf"\b(?!{reserved_words_regexp}\b)[a-zA-Z_]+[a-zA-Z0-9_]*")
+    value="variable", pattern=rf"\b(?!{reserved_words_regexp}|variable|string\b)[a-zA-Z_]+[a-zA-Z0-9_]*")
