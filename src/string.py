@@ -29,7 +29,8 @@ CONTINUE = StringLanguage(value="continue", pattern="continue")
 DEFAULT = StringLanguage(value="default", pattern="default")
 DELETE = StringLanguage(value="delete", pattern="delete")
 ELSE = StringLanguage(value="else", pattern=r"else(?!\s+if)")
-ELSE_IF = StringLanguage(value="elif", pattern=r"else\s+if")
+ELSE_IF = StringLanguage(value="elif", pattern=r"else +if")
+ELSE_IF_NL = StringLanguage(value="elif nl", pattern=r"else\s*\n\s*if")
 FALSE = StringLanguage(value="false", pattern="false")
 FINALLY = StringLanguage(value="finally", pattern="finally")
 FOR = StringLanguage(value="for", pattern="for")
@@ -46,6 +47,8 @@ VAR = StringLanguage(value="var", pattern="var")
 WHILE = StringLanguage(value="while", pattern="while")
 
 reserved_words: List[StringLanguage] = [
+    ELSE_IF_NL,
+    ELSE_IF,
     BREAK,
     CONST,
     CASE,
@@ -54,7 +57,6 @@ reserved_words: List[StringLanguage] = [
     DEFAULT,
     DELETE,
     ELSE,
-    ELSE_IF,
     FALSE,
     FINALLY,
     FOR,
@@ -139,7 +141,15 @@ symbols: List[StringLanguage] = [
     SBRACKETR
 ]  # urutan harus sesuai prioritas
 
-symbols_regexp = r"|".join([symbol.pattern for symbol in symbols])
+symbols_regexp_grouped = r"|".join(
+    ['|'.join(f"({sym})" if sym != OR.pattern else f"{OR.pattern}" for sym in symbol.pattern.split('|'))
+     for symbol in symbols])
+
+symbols_regexp_replacement: List[str] = []
+
+for symbol in symbols:
+    symbols_regexp_replacement.extend(
+        [f" {sym} " if sym != OR.pattern else f" {OR.pattern} " for sym in symbol.pattern.split('|')])
 
 """Convertable
 """
