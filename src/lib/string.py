@@ -29,8 +29,7 @@ CONTINUE = StringLanguage(value="continue", pattern="continue")
 DEFAULT = StringLanguage(value="default", pattern="default")
 DELETE = StringLanguage(value="delete", pattern="delete")
 ELSE = StringLanguage(value="else", pattern=r"else(?!\s+if)")
-ELSE_IF = StringLanguage(value="elif", pattern=r"else +if")
-ELSE_IF_NL = StringLanguage(value="elif nl", pattern=r"else\s*\n\s*if")
+ELSE_IF = StringLanguage(value="elif", pattern=r"else\s+if")
 FALSE = StringLanguage(value="false", pattern="false")
 FINALLY = StringLanguage(value="finally", pattern="finally")
 FOR = StringLanguage(value="for", pattern="for")
@@ -47,7 +46,6 @@ VAR = StringLanguage(value="var", pattern="var")
 WHILE = StringLanguage(value="while", pattern="while")
 
 reserved_words: List[StringLanguage] = [
-    ELSE_IF_NL,
     ELSE_IF,
     BREAK,
     CONST,
@@ -103,10 +101,10 @@ MINUS = StringLanguage(value="minus", pattern=r"-")
 MINUSEQ = StringLanguage(value="minuseq", pattern=r"-=")
 MODULO = StringLanguage(value="mod", pattern=r"%")
 OR = StringLanguage(value="or", pattern=r"\|\|")
-RBRACKETL = StringLanguage(value="rbracketl", pattern="(")
-RBRACKETR = StringLanguage(value="rbracketr", pattern=")")
-SBRACKETL = StringLanguage(value="sbracketl", pattern="[")
-SBRACKETR = StringLanguage(value="sbracketr", pattern="]")
+RBRACKETL = StringLanguage(value="rbracketl", pattern=r"\(")
+RBRACKETR = StringLanguage(value="rbracketr", pattern=r"\)")
+SBRACKETL = StringLanguage(value="sbracketl", pattern=r"\[")
+SBRACKETR = StringLanguage(value="sbracketr", pattern=r"\]")
 
 symbols: List[StringLanguage] = [
     DIVIDEEQ,
@@ -117,55 +115,37 @@ symbols: List[StringLanguage] = [
     MINUSEQ,
     DECREMENT,
     INCREMENT,
-    ASSIGN,
+    EQUAL,
+    NEQUAL,
     AND,
     COLON,
     COMMA,
     CBRACKETL,
     CBRACKETR,
     DIVIDE,
-    EQUAL,
     GREATER,
     LESS,
     NEWLINE,
-    NEQUAL,
     SEMICOLON,
     PLUS,
     MULTIPLY,
     MINUS,
     MODULO,
     OR,
+    ASSIGN,
     RBRACKETL,
     RBRACKETR,
     SBRACKETL,
     SBRACKETR
 ]  # urutan harus sesuai prioritas
 
-symbols_regexp_grouped = r"|".join(
-    ['|'.join(f"({sym})" for sym in symbol.pattern.split('|')) if symbol != OR.pattern else f"({OR.pattern})"
-     for symbol in symbols])
-
-symbols_regexp_replacement: List[str] = []
-
-for symbol in symbols:
-    if symbol == OR.pattern:
-        symbols_regexp_replacement.append(f" {OR.pattern} ")
-    else:
-        symbols_regexp_replacement.extend(
-            [f" {sym} " for sym in symbol.pattern.split('|')])
-
-
-symbols_regexp_replacement_val: List[str] = []
-
-for symbol in symbols:  # group replacement for symbols
-    symbols_regexp_replacement_val.extend(
-        [symbol.value for _ in symbol.pattern.split('|')])
+symbols_regexp = "|".join(symbol.pattern for symbol in symbols)
 
 """Convertable
 """
 STRING = StringLanguage(
-    value="string", pattern=r'"[^"\n\r]*"|"[^"]*[\r\n]' + r"'[^'\n\r]*'|'[^']*[\r\n]" + r"`[^`]*`|`[^`]*$")  # todo: handle ketika ada ", ', atau ` di dalam string`
-NUMBER = StringLanguage(value="number", pattern=r"\d+.?\d*|.\d+")
+    value="string", pattern=r"|".join(['"[^"\n\r]*"|"[^"]*[\r\n]', r"'[^'\n\r]*'|'[^']*[\r\n]", r"`[^`]*`|`[^`]*$"]))  # todo: handle ketika ada ", ', atau ` di dalam string`
+NUMBER = StringLanguage(value="number", pattern=r"\d+\.?\d*|\.\d+")
 COMMENT = StringLanguage(
     value="", pattern=r"\/\*[^\*\/]*\*\/|\*[^\*\/]*$|\/\/.*[\r\n]")
 
