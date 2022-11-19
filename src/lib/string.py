@@ -153,3 +153,7 @@ INVALID_VARIABLE = StringLanguage(
     value="number variable", pattern=r"[0-9]+[a-zA-Z_]\w*")
 VARIABLE = StringLanguage(
     value="variable", pattern=rf"\b(?!{reserved_words_regexp}|variable|string\b)[a-zA-Z_]+[a-zA-Z0-9_]*")
+
+language = [STRING, NUMBER, VARIABLE]
+language.extend(reserved_words)
+language.extend(symbols)
