@@ -56,7 +56,8 @@ pipeline: List[Pipe] = [
          lambda src: pipe_debug(src, sym.pattern, sym.value))(symbol)
         for symbol in symbols],
     # delete unnecesarry whitespace
-    lambda src: re.sub("\s+", " ", src)
+    lambda src: re.sub("\s+", " ", src),
+    lambda src: re.sub("variable dot variable", "variable", src)
 ]
 
 
