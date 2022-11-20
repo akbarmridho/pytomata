@@ -56,7 +56,9 @@ pipeline: List[Pipe] = [
          lambda src: pipe_debug(src, sym.pattern, sym.value))(symbol)
         for symbol in symbols],
     # delete unnecesarry whitespace
-    lambda src: re.sub("\s+", " ", src)
+    lambda src: re.sub("\s+", " ", src),
+    # handle nested object property access
+    lambda src: re.sub("variable( dot variable)*", "variable", src)
 ]
 
 
@@ -68,4 +70,8 @@ def tokenize(source_code: str) -> str:
     for pipe in pipeline:
         current_str = pipe(current_str)
 
-    return current_str
+    return current_str.strip()
+
+
+def pretty_print(string: str):
+    print(string.replace("nl", "nl\n"))

@@ -1,12 +1,2 @@
-try{
-
-}
-catch{
-
-}
-if(aa){
-
-}
-else{
-    
-}
+a.b();
+b .  a+5;

@@ -85,15 +85,18 @@ CBRACKETL = StringLanguage(value="cbraketl", pattern="{")
 CBRACKETR = StringLanguage(value="cbracketr", pattern="}")
 DIVIDE = StringLanguage(value="divide", pattern=r"/")
 DIVIDEEQ = StringLanguage(value="divideeq", pattern=r"\\=")
+DOT = StringLanguage(value="dot", pattern="\.")
 EQUAL = StringLanguage(value="equal", pattern="===|==")
 GREATER = StringLanguage(value="greater", pattern=">")
 GREATEREQ = StringLanguage(value="greatereq", pattern=">=")
 DECREMENT = StringLanguage(value="dec", pattern=r"--")
 INCREMENT = StringLanguage(value="inc", pattern=r"\+\+")
+INVERSE = StringLanguage(value="inverse", pattern=r"~")
 LESS = StringLanguage(value="less", pattern="<")
 LESSEQ = StringLanguage(value="lesseq", pattern="<=")
 NEWLINE = StringLanguage(value="nl", pattern=r"\n|\r\n|\r")
 NEQUAL = StringLanguage(value="nequal", pattern="!==|!=")
+NOT = StringLanguage(value="not", pattern="!")
 SEMICOLON = StringLanguage(value="semicolon", pattern=";")
 PLUS = StringLanguage(value="plus", pattern=r"\+")
 PLUSEQ = StringLanguage(value="pluseq", pattern=r"\+=")
@@ -127,8 +130,10 @@ symbols: List[StringLanguage] = [
     MODULOEQ,
     DECREMENT,
     INCREMENT,
-    EQUAL,
     NEQUAL,
+    EQUAL,
+    NOT,
+    INVERSE,
     POW,
     AND,
     BAND,
@@ -153,7 +158,8 @@ symbols: List[StringLanguage] = [
     RBRACKETL,
     RBRACKETR,
     SBRACKETL,
-    SBRACKETR
+    SBRACKETR,
+    DOT
 ]  # urutan harus sesuai prioritas
 
 symbols_regexp = "|".join(symbol.pattern for symbol in symbols)
@@ -167,7 +173,7 @@ COMMENT = StringLanguage(
     value="", pattern=r"\/\*[^\*\/]*\*\/|\*[^\*\/]*$|\/\/.*[\r\n]")
 
 INVALID_VARIABLE = StringLanguage(
-    value="number variable", pattern=r"[0-9]+[a-zA-Z_]\w*")
+    value="number variable", pattern=r"[0-9]+[a-zA-Z0-9_]+\w*")
 VARIABLE = StringLanguage(
     value="variable", pattern=rf"\b(?!{reserved_words_regexp}|variable|string\b)[a-zA-Z_]+[a-zA-Z0-9_]*")
 
@@ -179,3 +185,18 @@ language_dict: Dict[str, StringLanguage] = {}
 
 for lang in language:
     language_dict[lang.value] = lang
+
+
+def str_to_strlang(string: str) -> List[StringLanguage]:
+    global language_dict
+
+    result: List[StringLanguage] = []
+    splitted: List[str] = string.split(" ")
+
+    for each in splitted:
+        if each not in language_dict:
+            raise Exception(f"String {each} was not in language")
+
+        result.append(language_dict[each])
+
+    return result
