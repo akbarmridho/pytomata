@@ -57,7 +57,8 @@ pipeline: List[Pipe] = [
         for symbol in symbols],
     # delete unnecesarry whitespace
     lambda src: re.sub("\s+", " ", src),
-    lambda src: re.sub("variable dot variable", "variable", src)
+    # handle nested object property access
+    lambda src: re.sub("variable( dot variable)*", "variable", src)
 ]
 
 

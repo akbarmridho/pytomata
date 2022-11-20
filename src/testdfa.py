@@ -4,7 +4,7 @@ from lib.dfa import declaration_checker, noitaralced_checker, arith_operation_ch
 
 tokenized: str
 
-with open('2.js') as f:
+with open('test/1.js') as f:
     tokenized = tokenize(f.read())
 
 pretty_print(tokenized)
