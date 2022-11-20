@@ -1,4 +1,4 @@
-from lib.cfgtocnf import read_cfg
+from lib.preprocess import read_cfg, preprocess
 
 # Create a list of the terminal from pre-generated terminal text
 terminal_list = []
@@ -19,3 +19,19 @@ nonterminal_file.close()
 
 # Initialize grammar rules
 grammar_rules = read_cfg("produced_text/cnf.txt")
+
+program_running = True
+
+while (program_running):
+    print("Jika telah dilakukan perubahan pada file CFG, maka disarankan melakukan preprocess untuk meng-update data yang digunakan.")
+    initial_input_valid = False
+
+    preprocess = input("Preprocess? (Y/N) ").lower()
+    while (preprocess != "y" or preprocess != "n"):
+        print("Jawab dengan benar!")
+        preprocess = input("Preprocess? (Y/N) ").lower()
+
+    if (preprocess == "y"):
+        preprocess()
+
+    filename = input("Masukkan nama file di folder test yang ingin diuji : ")

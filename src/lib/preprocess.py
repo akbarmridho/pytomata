@@ -95,6 +95,11 @@ def write_cnf(cnf):
                 file.write(val+' ')
             file.write('\n')
     file.close()
+
+
+def preprocess():
+    cnf = to_cnf(read_cfg("../produced_text/cfg.txt"))
+    write_cnf(cnf)
     produce_term('../produced_text/cnf.txt')
 
 
