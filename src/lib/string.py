@@ -179,3 +179,18 @@ language_dict: Dict[str, StringLanguage] = {}
 
 for lang in language:
     language_dict[lang.value] = lang
+
+
+def str_to_strlang(string: str) -> List[StringLanguage]:
+    global language_dict
+
+    result: List[StringLanguage] = []
+    splitted: List[str] = string.split(" ")
+
+    for each in splitted:
+        if each not in language_dict:
+            raise Exception(f"String {each} was not in language")
+
+        result.append(language_dict[each])
+
+    return result
