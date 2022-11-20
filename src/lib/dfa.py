@@ -5,6 +5,7 @@ from typing import List, Dict, TypedDict
 class State(TypedDict):
     is_start: bool
     is_final: bool
+    name: str
 
 
 class Transition(TypedDict):
@@ -16,6 +17,7 @@ class Transition(TypedDict):
 class DFA:
     transitions: Dict[StringLanguage, Dict[State, State]]
     curent_state: State
+    initial_state: State
     has_initial: bool = False
     has_final: bool = False
 
@@ -38,6 +40,7 @@ class DFA:
             elif transition['input_state']['is_start'] and not self.has_initial:
                 self.has_initial = True
                 self.curent_state = transition['input_state']
+                self.initial_state = transition['input_state']
 
             if not self.has_final and transition['result_state']['is_final']:
                 self.has_final = True
@@ -59,6 +62,9 @@ class DFA:
         self.curent_state = self.transitions[string][self.curent_state]
 
         return True
+
+    def reset(self):
+        self.curent_state = self.initial_state
 
     @property
     def is_final_state(self) -> bool:
@@ -84,11 +90,11 @@ def all_string_except(exceptions: List[StringLanguage]) -> List[StringLanguage]:
     return result
 
 
-decl_start = State(is_final=True, is_start=True)
-decl_mid_varlet = State(is_final=False, is_start=False)
-decl_mid_const = State(is_final=False, is_start=False)
-decl_late_const = State(is_final=False, is_start=False)
-decl_final = State(is_final=True, is_start=False)
+decl_start = State(is_final=True, is_start=True, name="decl start")
+decl_mid_varlet = State(is_final=False, is_start=False, name="decl mid varlet")
+decl_mid_const = State(is_final=False, is_start=False, name="decl mid const")
+decl_late_const = State(is_final=False, is_start=False, name="decl late const")
+decl_final = State(is_final=True, is_start=False, name="decl final")
 
 except_var_let_const = all_string_except([VAR, LET, CONST])
 
@@ -118,9 +124,9 @@ declaration_checker = DFA(
     ]
 )
 
-lced_start = State(is_final=True, is_start=True)
-lced_mid = State(is_final=False, is_start=False)
-lced_final = State(is_final=True, is_start=False)
+lced_start = State(is_final=True, is_start=True, name="lced start")
+lced_mid = State(is_final=False, is_start=False, name="lced mid")
+lced_final = State(is_final=True, is_start=False, name="lced final")
 
 assignment = [ASSIGN, PLUSEQ, MINUSEQ, MULTIPLYEQ, DIVIDEEQ, MODULOEQ, POWEQ]
 anything_except_assignment = all_string_except(assignment)
@@ -137,10 +143,11 @@ noitaralced_checker = DFA([
     *[Transition(input_state=lced_final, result_state=lced_start, string=strlang) for strlang in anything_except_assignment_and_number]
 ])
 
-arith_start = State(is_final=True, is_start=True)
-arith_final_number = State(is_final=True, is_start=False)
-arith_op = State(is_final=False, is_start=False)
-arith_var = State(is_final=False, is_start=False)
+arith_start = State(is_final=True, is_start=True, name="arith start")
+arith_final_number = State(
+    is_final=True, is_start=False, name="arith final number")
+arith_op = State(is_final=False, is_start=False, name="arith op")
+arith_var = State(is_final=False, is_start=False, name="arith var")
 
 operators = [PLUS, MINUS, MULTIPLY, POW, DIVIDE, MODULO, XOR, BOR, BAND, SHIFT]
 anything_except_number_variable = all_string_except([NUMBER, VARIABLE])
