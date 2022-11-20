@@ -85,6 +85,7 @@ CBRACKETL = StringLanguage(value="cbraketl", pattern="{")
 CBRACKETR = StringLanguage(value="cbracketr", pattern="}")
 DIVIDE = StringLanguage(value="divide", pattern=r"/")
 DIVIDEEQ = StringLanguage(value="divideeq", pattern=r"\\=")
+DOT = StringLanguage(value="dot", pattern="\.")
 EQUAL = StringLanguage(value="equal", pattern="===|==")
 GREATER = StringLanguage(value="greater", pattern=">")
 GREATEREQ = StringLanguage(value="greatereq", pattern=">=")
@@ -157,7 +158,8 @@ symbols: List[StringLanguage] = [
     RBRACKETL,
     RBRACKETR,
     SBRACKETL,
-    SBRACKETR
+    SBRACKETR,
+    DOT
 ]  # urutan harus sesuai prioritas
 
 symbols_regexp = "|".join(symbol.pattern for symbol in symbols)
@@ -171,9 +173,9 @@ COMMENT = StringLanguage(
     value="", pattern=r"\/\*[^\*\/]*\*\/|\*[^\*\/]*$|\/\/.*[\r\n]")
 
 INVALID_VARIABLE = StringLanguage(
-    value="number variable", pattern=r"[0-9]+[a-zA-Z_]\w*")
+    value="number variable", pattern=r"[0-9]+[a-zA-Z0-9_]+( \. )?[a-zA-Z0-9_]*\w*")
 VARIABLE = StringLanguage(
-    value="variable", pattern=rf"\b(?!{reserved_words_regexp}|variable|string\b)[a-zA-Z_]+[a-zA-Z0-9_]*")
+    value="variable", pattern=rf"\b(?!{reserved_words_regexp}|variable|string\b)[a-zA-Z_]+[a-zA-Z0-9_]*( \. )?[a-zA-Z0-9_]*")
 
 language = [STRING, NUMBER, VARIABLE]
 language.extend(reserved_words)
