@@ -69,3 +69,7 @@ def tokenize(source_code: str) -> str:
         current_str = pipe(current_str)
 
     return current_str.strip()
+
+
+def pretty_print(string: str):
+    print(string.replace("nl", "nl\n"))

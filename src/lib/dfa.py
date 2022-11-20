@@ -70,17 +70,18 @@ class DFA:
                 print(
                     f"From {from_.name} with input {string.value} goes to {to.name}")
 
-    def input(self, string: StringLanguage) -> bool:
+    def input(self, string: StringLanguage, show_debug=False) -> bool:
         """Input DFA. Mengembalikan true jika accepted, mengembalikan false jika rejected
 
         Jika rejected, program tidak akan berubah
         """
 
         if string not in self.transitions or self.curent_state not in self.transitions[string]:
-            print(self.prev2_msg)
-            print(self.prev_msg)
-            print(
-                f"DFA Fail on state <<{self.curent_state.name}>> with input <<{string.value}>>")
+            if show_debug:
+                print(self.prev2_msg)
+                print(self.prev_msg)
+                print(
+                    f"DFA Fail on state <<{self.curent_state.name}>> with input <<{string.value}>>")
             return False
 
         self.prev2_msg = self.prev_msg
@@ -118,7 +119,7 @@ def all_string_except(exceptions: List[StringLanguage]) -> List[StringLanguage]:
     return result
 
 
-def check_input(dfa: DFA, word: List[StringLanguage]) -> List[int]:
+def check_input(dfa: DFA, word: List[StringLanguage], debug=False) -> List[int]:
     error_lines = []
 
     dfa.reset()
@@ -128,7 +129,7 @@ def check_input(dfa: DFA, word: List[StringLanguage]) -> List[int]:
         if string is NEWLINE:
             current_line += 1
 
-        result = dfa.input(string)
+        result = dfa.input(string, debug)
 
         if not result:
             error_lines.append(current_line)
