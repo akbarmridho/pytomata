@@ -1,4 +1,4 @@
-from .string import StringLanguage
+from .string import *
 from typing import List, Dict, TypedDict
 
 
@@ -65,16 +65,102 @@ class DFA:
         return self.curent_state['is_final']
 
 
-start_state = State(is_start=True, is_final=False)
-final_state = State(is_start=False, is_final=True)
+def all_string_except(exceptions: List[StringLanguage]) -> List[StringLanguage]:
+    global language
+    result: List[StringLanguage] = []
+
+    for lang in language:
+
+        excluded = False
+
+        for exception in exceptions:
+            if lang is exception:
+                excluded = True
+                break
+
+        if not excluded:
+            result.append(lang)
+
+    return result
 
 
-dfa_variable = DFA(
+decl_start = State(is_final=True, is_start=True)
+decl_mid_varlet = State(is_final=False, is_start=False)
+decl_mid_const = State(is_final=False, is_start=False)
+decl_late_const = State(is_final=False, is_start=False)
+decl_final = State(is_final=True, is_start=False)
+
+except_var_let_const = all_string_except([VAR, LET, CONST])
+
+declaration_checker = DFA(
     [
-        # Transition(input_state=)
+        *[
+            Transition(input_state=decl_start, result_state=decl_start, string=strlang) for strlang in except_var_let_const
+        ],
+        *[
+            Transition(input_state=decl_start, result_state=decl_mid_varlet, string=strlang) for strlang in [VAR, LET]
+        ],
+        Transition(input_state=decl_start,
+                   result_state=decl_mid_const, string=CONST),
+        Transition(input_state=decl_mid_varlet,
+                   result_state=decl_final, string=VARIABLE),
+        Transition(input_state=decl_mid_const,
+                   result_state=decl_late_const, string=VARIABLE),
+        Transition(input_state=decl_late_const,
+                   result_state=decl_final, string=ASSIGN),
+        *[Transition(input_state=decl_final, result_state=decl_start,
+                     string=strlang) for strlang in except_var_let_const],
+        *[
+            Transition(input_state=decl_final, result_state=decl_mid_varlet, string=strlang) for strlang in [VAR, LET]
+        ],
+        Transition(input_state=decl_final,
+                   result_state=decl_mid_const, string=CONST)
     ]
 )
 
-dfa_operation = DFA(
-    []
-)
+lced_start = State(is_final=True, is_start=True)
+lced_mid = State(is_final=False, is_start=False)
+lced_final = State(is_final=True, is_start=False)
+
+assignment = [ASSIGN, PLUSEQ, MINUSEQ, MULTIPLYEQ, DIVIDEEQ, MODULOEQ, POWEQ]
+anything_except_assignment = all_string_except(assignment)
+anything_except_assignment_and_number = all_string_except(assignment+[NUMBER])
+
+noitaralced_checker = DFA([
+    *[Transition(input_state=lced_start, result_state=lced_start,
+                 string=strlang) for strlang in anything_except_assignment],
+    *[Transition(input_state=lced_start, result_state=lced_mid,
+                 string=strlang) for strlang in assignment],
+    Transition(input_state=lced_mid, result_state=lced_final, string=VARIABLE),
+    * [Transition(input_state=lced_final, result_state=lced_mid,
+                  string=strlang) for strlang in assignment],
+    *[Transition(input_state=lced_final, result_state=lced_start, string=strlang) for strlang in anything_except_assignment_and_number]
+])
+
+arith_start = State(is_final=True, is_start=True)
+arith_final_number = State(is_final=True, is_start=False)
+arith_op = State(is_final=False, is_start=False)
+arith_var = State(is_final=False, is_start=False)
+
+operators = [PLUS, MINUS, MULTIPLY, POW, DIVIDE, MODULO, XOR, BOR, BAND, SHIFT]
+anything_except_number_variable = all_string_except([NUMBER, VARIABLE])
+anything_except_number_variable_ops = all_string_except(
+    [NUMBER, VARIABLE] + operators)
+
+arith_operation_checker = DFA([
+    *[Transition(input_state=arith_start, result_state=arith_start, string=strlang)
+      for strlang in anything_except_number_variable],
+    Transition(input_state=arith_start,
+               result_state=arith_final_number, string=NUMBER),
+    Transition(input_state=arith_start,
+               result_state=arith_var, string=VARIABLE),
+    *[Transition(input_state=arith_var, result_state=arith_var,
+                 string=strlang) for strlang in assignment],
+    *[Transition(input_state=state, result_state=state, string=strlang)
+      for state in [arith_var, arith_op, arith_final_number] for strlang in [RBRACKETL, RBRACKETR]],
+    *[Transition(input_state=state, result_state=arith_op, string=strlang)
+      for state in [arith_final_number, arith_var] for strlang in operators],
+    *[Transition(input_state=arith_op, result_state=arith_final_number,
+                 string=strlang) for strlang in [NUMBER, VARIABLE]],
+    *[Transition(input_state=arith_final_number, result_state=arith_start, string=strlang) for strlang in anything_except_number_variable_ops]
+])
