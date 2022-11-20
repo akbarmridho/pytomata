@@ -64,8 +64,30 @@ def to_cnf(cfg):
     return new_cnf
 
 
+def produce_term(file):
+    right_side = set([])
+    left_side = set([])
+    lines = open(file, 'r').readlines()
+    for line in lines:
+        rules = line.rstrip('\n').split('->')
+        if (len(rules) > 1):
+            right_side.add(rules[0].strip())
+            left_side = left_side.union(set(rules[1].strip().split(' ')))
+    left_side = left_side - right_side
+    terminal_file = open('../produced_text/terminals.txt', 'w')
+    nonterminal_file = open('../produced_text/nonterminals.txt', 'w')
+    for rs in right_side:
+        terminal_file.write(rs)
+        terminal_file.write('\n')
+    for ls in left_side:
+        nonterminal_file.write(ls)
+        nonterminal_file.write('\n')
+    terminal_file.close()
+    nonterminal_file.close()
+
+
 def write_cnf(cnf):
-    file = open('cnf.txt', 'w')
+    file = open('../produced_text/cnf.txt', 'w')
     for key in cnf:
         for vals in cnf[key]:
             file.write(key + ' -> ')
@@ -75,6 +97,12 @@ def write_cnf(cnf):
     file.close()
 
 
+def preprocess():
+    cnf = to_cnf(read_cfg("../produced_text/cfg.txt"))
+    write_cnf(cnf)
+    produce_term('../produced_text/cnf.txt')
+
+
 if __name__ == "__main__":
-    cnf = to_cnf(read_cfg("cfg.txt"))
+    cnf = to_cnf(read_cfg("../produced_text/cfg.txt"))
     write_cnf(cnf)
