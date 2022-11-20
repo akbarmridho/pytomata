@@ -68,4 +68,4 @@ def tokenize(source_code: str) -> str:
     for pipe in pipeline:
         current_str = pipe(current_str)
 
-    return current_str
+    return current_str.strip()

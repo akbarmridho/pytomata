@@ -90,10 +90,12 @@ GREATER = StringLanguage(value="greater", pattern=">")
 GREATEREQ = StringLanguage(value="greatereq", pattern=">=")
 DECREMENT = StringLanguage(value="dec", pattern=r"--")
 INCREMENT = StringLanguage(value="inc", pattern=r"\+\+")
+INVERSE = StringLanguage(value="inverse", pattern=r"~")
 LESS = StringLanguage(value="less", pattern="<")
 LESSEQ = StringLanguage(value="lesseq", pattern="<=")
 NEWLINE = StringLanguage(value="nl", pattern=r"\n|\r\n|\r")
 NEQUAL = StringLanguage(value="nequal", pattern="!==|!=")
+NOT = StringLanguage(value="not", pattern="!")
 SEMICOLON = StringLanguage(value="semicolon", pattern=";")
 PLUS = StringLanguage(value="plus", pattern=r"\+")
 PLUSEQ = StringLanguage(value="pluseq", pattern=r"\+=")
@@ -127,8 +129,10 @@ symbols: List[StringLanguage] = [
     MODULOEQ,
     DECREMENT,
     INCREMENT,
-    EQUAL,
     NEQUAL,
+    EQUAL,
+    NOT,
+    INVERSE,
     POW,
     AND,
     BAND,
