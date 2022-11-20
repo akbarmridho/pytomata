@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict
 
 
 class StringLanguage:
@@ -77,6 +77,8 @@ reserved_words_regexp = r"|".join([word.pattern for word in reserved_words])
 """
 ASSIGN = StringLanguage(value="assign", pattern="=")
 AND = StringLanguage(value="and", pattern="&&")
+BAND = StringLanguage(value="band", pattern="&")
+BOR = StringLanguage(value="bor", pattern="\|")
 COLON = StringLanguage(value="colon", pattern=":")
 COMMA = StringLanguage(value="comma", pattern=",")
 CBRACKETL = StringLanguage(value="cbraketl", pattern="{")
@@ -95,29 +97,41 @@ NEQUAL = StringLanguage(value="nequal", pattern="!==|!=")
 SEMICOLON = StringLanguage(value="semicolon", pattern=";")
 PLUS = StringLanguage(value="plus", pattern=r"\+")
 PLUSEQ = StringLanguage(value="pluseq", pattern=r"\+=")
+POW = StringLanguage(value="pow", pattern="\*\*")
+POWEQ = StringLanguage(value="poweq", pattern="\*\*=")
 MULTIPLY = StringLanguage(value="multiply", pattern=r"\*")
 MULTIPLYEQ = StringLanguage(value="multiplyeq", pattern=r"\*=")
 MINUS = StringLanguage(value="minus", pattern=r"-")
 MINUSEQ = StringLanguage(value="minuseq", pattern=r"-=")
 MODULO = StringLanguage(value="mod", pattern=r"%")
+MODULOEQ = StringLanguage(value="modeq", pattern="%=")
 OR = StringLanguage(value="or", pattern=r"\|\|")
+QMARK = StringLanguage(value="qmark", pattern="\?")
 RBRACKETL = StringLanguage(value="rbracketl", pattern=r"\(")
 RBRACKETR = StringLanguage(value="rbracketr", pattern=r"\)")
 SBRACKETL = StringLanguage(value="sbracketl", pattern=r"\[")
 SBRACKETR = StringLanguage(value="sbracketr", pattern=r"\]")
+SHIFT = StringLanguage(value="shift", pattern=">>|<<|>>>")
+XOR = StringLanguage(value="xor", pattern="\^")
+
 
 symbols: List[StringLanguage] = [
     DIVIDEEQ,
+    SHIFT,
     GREATEREQ,
     LESSEQ,
     PLUSEQ,
     MULTIPLYEQ,
     MINUSEQ,
+    POWEQ,
+    MODULOEQ,
     DECREMENT,
     INCREMENT,
     EQUAL,
     NEQUAL,
+    POW,
     AND,
+    BAND,
     COLON,
     COMMA,
     CBRACKETL,
@@ -132,6 +146,9 @@ symbols: List[StringLanguage] = [
     MINUS,
     MODULO,
     OR,
+    BOR,
+    QMARK,
+    XOR,
     ASSIGN,
     RBRACKETL,
     RBRACKETR,
@@ -157,3 +174,8 @@ VARIABLE = StringLanguage(
 language = [STRING, NUMBER, VARIABLE]
 language.extend(reserved_words)
 language.extend(symbols)
+
+language_dict: Dict[str, StringLanguage] = {}
+
+for lang in language:
+    language_dict[lang.value] = lang
