@@ -1,5 +1,6 @@
 import re
 from typing import List, Callable
+from math import log10, ceil
 from .string import symbols_regexp, COMMENT, STRING, VARIABLE, INVALID_VARIABLE, NUMBER, ELSE_IF, symbols  # type: ignore
 
 Pipe = Callable[[str], str]
@@ -74,4 +75,8 @@ def tokenize(source_code: str) -> str:
 
 
 def pretty_print(string: str):
-    print(string.replace("nl", "nl\n"))
+    splitted = string.replace("nl", "nl\n").split("\n")
+    pad = ceil(log10(splitted.__len__()))
+    for i in range(splitted.__len__()):
+        no = str(i+1) + " "*(pad-str(i).__len__())
+        print(f"{no}: {splitted[i].strip()}")
