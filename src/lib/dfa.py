@@ -199,7 +199,9 @@ arith_var = State(is_final=False, is_start=False, name="arith var")
 
 operators = [PLUS, MINUS, MULTIPLY, POW, DIVIDE,
              MODULO, XOR, BOR, BAND, SHIFT, INVERSE,
-             LESS, LESSEQ, GREATER, GREATEREQ, EQUAL, NEQUAL]
+             LESS, LESSEQ, GREATER, GREATEREQ]
+
+equality_operator = [EQUAL, NEQUAL]
 
 anything_except_number_variable = all_string_except([NUMBER, VARIABLE])
 anything_except_number_variable_ops = all_string_except(
@@ -217,8 +219,10 @@ arith_operation_checker = DFA([
                  string=strlang) for strlang in anything_except_operator],
     *[Transition(input_state=state, result_state=state, string=strlang)
       for state in [arith_var, arith_op, arith_final_number] for strlang in [RBRACKETL, RBRACKETR]],
-    *[Transition(input_state=state, result_state=arith_op, string=strlang)
-      for state in [arith_final_number, arith_var] for strlang in operators],
+    *[Transition(input_state=arith_final_number, result_state=arith_op, string=strlang)
+      for strlang in operators+equality_operator],
+    *[Transition(input_state=arith_var, result_state=arith_op, string=strlang)
+      for strlang in operators],
     *[Transition(input_state=arith_op, result_state=arith_final_number,
                  string=strlang) for strlang in [NUMBER, VARIABLE]],
     *[Transition(input_state=arith_final_number, result_state=arith_start, string=strlang) for strlang in anything_except_number_variable_ops]
