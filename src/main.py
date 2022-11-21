@@ -1,30 +1,11 @@
-from lib.preprocess import read_cfg, preprocess
+from lib.preprocess import read_cfg, preprocess, read_reverse_cnf
 from lib.tokenizer import tokenize, pretty_print
 from lib.string import str_to_strlang, NEWLINE
 from lib.dfa import declaration_checker, noitaralced_checker, arith_operation_checker, check_input
 from lib.cyk import cyk
 
 if __name__ == "__main__":
-    # Create a list of the terminal from pre-generated terminal text
-    terminal_list = []
-    terminal_file = open("produced_text/terminals.txt", 'r')
-    terminal_lines = terminal_file.readlines()
-    for line in terminal_lines:
-        terminal_list.append(line.rstrip("\n"))
-
-    # Create a list of the nonterminal from pre-generated nonterminal text
-    nonterminal_list = []
-    nonterminal_file = open("produced_text/nonterminals.txt", 'r')
-    nonterminal_lines = nonterminal_file.readlines()
-    for line in nonterminal_lines:
-        nonterminal_list.append(line.rstrip("\n"))
-
-    terminal_file.close()
-    nonterminal_file.close()
-
     # Initialize grammar rules
-    grammar_rules = read_cfg("produced_text/cnf.txt")
-
     program_running = True
 
     DEBUG_DFA = True
@@ -39,6 +20,11 @@ if __name__ == "__main__":
 
     if (is_preprocess == "y"):
         preprocess()
+
+    grammar_rules = read_cfg("produced_text/cnf.txt")
+    reverse_cnf = read_reverse_cnf("produced_text/reverse_cnf.txt")
+
+    print(reverse_cnf)
 
     while (program_running):
         filename = input(
@@ -74,4 +60,4 @@ if __name__ == "__main__":
             print(
                 f"Found syntax error at line {line_number}: <<{original_split[line_number-1]}>>")
         tokenized_split = tokenized.split(' ')
-        print(cyk(tokenized_split, grammar_rules))
+        print(cyk(tokenized_split, grammar_rules, True))
