@@ -1,1 +1,1 @@
-if(true){y=2;}
+if(x<3){console.log(x);}else if(x>5){i++;}else if(x<=6){console.log("aaaa");}
