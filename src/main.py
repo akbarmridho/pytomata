@@ -73,23 +73,27 @@ if __name__ == "__main__":
         syntax_error_lines = set(
             decl_error_lines + lced_error_lines + arith_error_lines)
 
+        if syntax_error_lines.__len__() != 0:
+            print("SYNTAX ERROR AT DFA")
+
         for line_number in syntax_error_lines:
             print(
                 f"Found syntax error at line {line_number}: <<{original_split[line_number-1]}>>")
 
-        tokenized_split_with_nl = tokenized.split(' ')
+        if syntax_error_lines.__len__() == 0:
+            tokenized_split_with_nl = tokenized.split(' ')
+            tokenized_split = []
 
-        tokenized_split = []
+            for each in tokenized_split_with_nl:
+                if each != "nl":
+                    tokenized_split.append(each)
 
-        for each in tokenized_split_with_nl:
-            if each != "nl":
-                tokenized_split.append(each)
-
-        tic = time.perf_counter()
-        result = cyk(tokenized_split, grammar_rules, reverse_cnf, DEBUG_CYK)
-        if (result):
-            print(f"File {filename} benar secara syntax")
-        else:
-            print(f"File {filename} salah secara syntax")
-        toc = time.perf_counter()
-        print(f"File di-parse dalam {toc - tic} detik")
+            tic = time.perf_counter()
+            result = cyk(tokenized_split, grammar_rules,
+                         reverse_cnf, DEBUG_CYK)
+            if (result):
+                print(f"File {filename} benar secara syntax")
+            else:
+                print(f"File {filename} salah secara syntax")
+            toc = time.perf_counter()
+            print(f"File di-parse dalam {toc - tic} detik")
