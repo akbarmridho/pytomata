@@ -2,6 +2,7 @@ from lib.preprocess import read_cfg, preprocess
 from lib.tokenizer import tokenize, pretty_print
 from lib.string import str_to_strlang, NEWLINE
 from lib.dfa import declaration_checker, noitaralced_checker, arith_operation_checker, check_input
+from lib.cyk import cyk
 
 if __name__ == "__main__":
     # Create a list of the terminal from pre-generated terminal text
@@ -43,7 +44,7 @@ if __name__ == "__main__":
         filename = input(
             "Masukkan nama file di folder test yang ingin diuji : ")
 
-        reader = open(filename)
+        reader = open(f"../test/{filename}")
         original_file = reader.read()
         reader.close()
 
@@ -72,3 +73,5 @@ if __name__ == "__main__":
         for line_number in syntax_error_lines:
             print(
                 f"Found syntax error at line {line_number}: <<{original_split[line_number-1]}>>")
+        tokenized_split = tokenized.split(' ')
+        print(cyk(tokenized_split, grammar_rules))
