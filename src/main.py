@@ -74,4 +74,4 @@ if __name__ == "__main__":
             print(
                 f"Found syntax error at line {line_number}: <<{original_split[line_number-1]}>>")
         tokenized_split = tokenized.split(' ')
-        print(cyk(tokenized_split, grammar_rules, True))
+        print(cyk(tokenized_split, grammar_rules))

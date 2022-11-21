@@ -55,11 +55,12 @@ def cyk(string, cnf, debug=False):
                     print(mul_result_list)
                 for mul_result in mul_result_list:
                     cell_content = cell_content + producer_of(mul_result, cnf)
-                print("\n")
+                if (debug):
+                    print("\n")
             if (debug):
                 print("Cell Content")
                 print(cell_content)
-            print("\n\n")
+                print("\n\n")
 
             table[i][j] = cell_content
 
