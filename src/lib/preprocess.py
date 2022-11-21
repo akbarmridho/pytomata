@@ -1,3 +1,7 @@
+from .string import language_dict
+from typing import Dict, List
+
+
 def read_cfg(file):
     cfg = {}
     lines = open(file, 'r').readlines()
@@ -78,6 +82,8 @@ def to_cnf(cfg):
 
 
 def produce_term(file):
+    global language_dict
+
     right_side = set([])
     left_side = set([])
     lines = open(file, 'r').readlines()
@@ -146,7 +152,34 @@ def read_reverse_cnf(r_cnf_filename):
     return reverse_cnf
 
 
+def validate_cnf(cnf: Dict[str, List[List[str]]]):
+    terminals: Dict[str, bool] = {}
+
+    for terminal in cnf.keys():
+        terminals[terminal] = True
+
+    for key, prod in cnf.items():
+        for rule in prod:
+            rulestr = f"{key} -> " + " ".join(rule)
+
+            if len(rule) == 2:
+                if rule[0] not in terminals:
+                    print(
+                        f"CNF Validation error on {rulestr}: terminal {rule[0]} could not be found")
+                elif rule[1] not in terminals:
+                    print(
+                        f"CNF Validation error on {rulestr}: terminal {rule[1]} could not be found")
+            elif len(rule) == 1:
+                if rule[0] not in language_dict:
+                    print(
+                        f"CNF Validation error on {rulestr}: string {rule[0]} was not found in language")
+            else:
+                print(
+                    f"CNF validation error on {rulestr}: right side length must be one or two")
+
+
 def preprocess():
     cnf = to_cnf(read_cfg("produced_text/cfg.txt"))
+    validate_cnf(cnf)
     write_cnf(cnf)
     write_reverse_cnf(to_reverse_cnf(cnf))
