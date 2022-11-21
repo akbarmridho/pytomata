@@ -170,7 +170,7 @@ STRING = StringLanguage(
     value="string", pattern=r"|".join(['"[^"\n\r]*"|"[^"]*[\r\n]', r"'[^'\n\r]*'|'[^']*[\r\n]", r"`[^`]*`|`[^`]*$"]))  # todo: handle ketika ada ", ', atau ` di dalam string`
 NUMBER = StringLanguage(value="number", pattern=r"\d+\.?\d*|\.\d+")
 COMMENT = StringLanguage(
-    value="", pattern=r"\/\*[^\*\/]*\*\/|\*[^\*\/]*$|\/\/.*[\r\n]")
+    value="", pattern=r"/\/\*[^\*\/]*\*\/|\/\*[^\*\/]*$|\/\/.*[\r\n]/gm")
 
 INVALID_VARIABLE = StringLanguage(
     value="number variable", pattern=r"[0-9]+[a-zA-Z_]+[a-zA-Z_0-9]*\w*")
