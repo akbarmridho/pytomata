@@ -49,11 +49,21 @@ def to_cnf(cfg):
         idx = 0
         for vals in cfg[key]:
             while(len(vals)>2):
-                new_key = key+str(idx)
                 new_rule = vals[0:2]
+                print([new_rule])
                 vals = vals[2:]
+                found = False
+                # Traverse dict to check if new_rule is already a production
+                for key_ctr in new_cnf:
+                    if (new_cnf[key_ctr]==[new_rule]):
+                        new_key = key_ctr
+                        found = True
+                        break
+                # if not, make new rulegit
+                if(not found):
+                    new_key = key+str(idx)
+                    new_cnf[new_key] = [new_rule]
                 vals.insert(0,new_key)
-                new_cnf[new_key] = [new_rule]
                 idx+=1
             if key not in new_cnf:
                 productions = []
