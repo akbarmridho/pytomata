@@ -198,7 +198,9 @@ arith_op = State(is_final=False, is_start=False, name="arith op")
 arith_var = State(is_final=False, is_start=False, name="arith var")
 
 operators = [PLUS, MINUS, MULTIPLY, POW, DIVIDE,
-             MODULO, XOR, BOR, BAND, SHIFT, INVERSE]
+             MODULO, XOR, BOR, BAND, SHIFT, INVERSE,
+             LESS, LESSEQ, GREATER, GREATEREQ, EQUAL, NEQUAL]
+
 anything_except_number_variable = all_string_except([NUMBER, VARIABLE])
 anything_except_number_variable_ops = all_string_except(
     [NUMBER, VARIABLE] + operators)
