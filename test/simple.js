@@ -1,1 +1,1 @@
-let bruh;
+let bruh = 5 * 9;

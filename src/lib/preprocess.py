@@ -53,7 +53,7 @@ def to_cnf(cfg):
         for vals in cfg[key]:
             while (len(vals) > 2):
                 new_rule = vals[0:2]
-                print([new_rule])
+                # print([new_rule])
                 vals = vals[2:]
                 found = False
                 # Traverse dict to check if new_rule is already a production

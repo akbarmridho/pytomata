@@ -27,7 +27,7 @@ def cell_pair_to_check(i, j, k):
 # print(multiply_cell(['Bruh', 'Bruh2'], ['Bruh2', 'Bruh3']))
 
 
-def cyk(string, cnf):
+def cyk(string, cnf, debug=False):
     n = len(string)
     print(n)
 
@@ -44,21 +44,28 @@ def cyk(string, cnf):
                 i1, j1 = multiplied_1
                 i2, j2 = multiplied_2
                 mul_result_list = multiply_cell(table[i1][j1], table[i2][j2])
-                print(f"{i} {j}")
-                print("Operator")
-                print(table[i1][j1])
-                print(table[i2][j2])
-                print("Result")
-                print(mul_result_list)
+                if (debug):
+                    print(f"{i} {j}")
+                    print("Operator")
+                    print(multiplied_1)
+                    print(table[i1][j1])
+                    print(multiplied_2)
+                    print(table[i2][j2])
+                    print("Result")
+                    print(mul_result_list)
                 for mul_result in mul_result_list:
                     cell_content = cell_content + producer_of(mul_result, cnf)
+                print("\n")
+            if (debug):
                 print("Cell Content")
                 print(cell_content)
-                print("\n\n")
+            print("\n\n")
+
             table[i][j] = cell_content
 
-    print(table)
-    # if ('S' in (table[n-1][0])):
-    #     return True
-    # else:
-    #     return False
+    if (debug):
+        print(table)
+    if ('S' in (table[n-1][0])):
+        return True
+    else:
+        return False
