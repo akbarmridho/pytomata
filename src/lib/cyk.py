@@ -24,10 +24,17 @@ def cell_pair_to_check(i, j, k):
     return ((k, j), (i-k-1, j+k+1))
 
 
+def print_table(table):
+    table_height = len(table)
+    for i in range(table_height - 1, -1, -1):
+        print(f"Row {i}")
+        print(table[i])
+        print("\n")
+
 # print(multiply_cell(['Bruh', 'Bruh2'], ['Bruh2', 'Bruh3']))
 
 
-def cyk(string, cnf, debug=False):
+def cyk(string, cnf, reverse_cnf, debug=False):
     n = len(string)
     print(n)
 
@@ -54,7 +61,11 @@ def cyk(string, cnf, debug=False):
                     print("Result")
                     print(mul_result_list)
                 for mul_result in mul_result_list:
-                    cell_content = cell_content + producer_of(mul_result, cnf)
+                    try:
+                        added_list = reverse_cnf[tuple(mul_result)]
+                    except (KeyError):
+                        added_list = []
+                    cell_content = cell_content + added_list
                 if (debug):
                     print("\n")
             if (debug):
@@ -65,7 +76,7 @@ def cyk(string, cnf, debug=False):
             table[i][j] = cell_content
 
     if (debug):
-        print(table)
+        print_table(table)
     if ('S' in (table[n-1][0])):
         return True
     else:

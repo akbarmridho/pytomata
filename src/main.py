@@ -3,6 +3,7 @@ from lib.tokenizer import tokenize, pretty_print
 from lib.string import str_to_strlang, NEWLINE
 from lib.dfa import declaration_checker, noitaralced_checker, arith_operation_checker, check_input
 from lib.cyk import cyk
+import time
 
 if __name__ == "__main__":
     # Initialize grammar rules
@@ -10,6 +11,16 @@ if __name__ == "__main__":
 
     DEBUG_DFA = True
     SHOW_TOKENIZED = True
+
+    is_debug = input("Activate debug mode? (Y/N) ").lower()
+    while (is_debug != "y" and is_debug != "n"):
+        print("Jawab dengan benar!")
+        is_debug = input("Preprocess? (Y/N) ").lower()
+
+    debug_active = is_debug == "y"
+
+    DEBUG_DFA = debug_active
+    DEBUG_CYK = debug_active
 
     print("Jika telah dilakukan perubahan pada file CFG, maka disarankan melakukan preprocess untuk meng-update data yang digunakan.")
 
@@ -24,15 +35,21 @@ if __name__ == "__main__":
     grammar_rules = read_cfg("produced_text/cnf.txt")
     reverse_cnf = read_reverse_cnf("produced_text/reverse_cnf.txt")
 
-    print(reverse_cnf)
+    # print(reverse_cnf)
 
     while (program_running):
-        filename = input(
-            "Masukkan nama file di folder test yang ingin diuji : ")
 
-        reader = open(f"../test/{filename}")
-        original_file = reader.read()
-        reader.close()
+        file_valid = False
+        while (not file_valid):
+            try:
+                filename = input(
+                    "Masukkan nama file di folder test yang ingin diuji : ")
+                reader = open(f"../test/{filename}")
+                original_file = reader.read()
+                reader.close()
+                file_valid = True
+            except (FileNotFoundError):
+                print("File tidak ditemukan.")
 
         original_split = original_file.split("\n")
 
@@ -60,4 +77,12 @@ if __name__ == "__main__":
             print(
                 f"Found syntax error at line {line_number}: <<{original_split[line_number-1]}>>")
         tokenized_split = tokenized.split(' ')
-        print(cyk(tokenized_split, grammar_rules, True))
+
+        tic = time.perf_counter()
+        result = cyk(tokenized_split, grammar_rules, reverse_cnf, DEBUG_CYK)
+        if (result):
+            print(f"File {filename} benar secara syntax")
+        else:
+            print(f"File {filename} salah secara syntax")
+        toc = time.perf_counter()
+        print(f"File di-parse dalam {toc - tic} detik")

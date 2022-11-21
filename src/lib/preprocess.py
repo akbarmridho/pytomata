@@ -150,4 +150,3 @@ def preprocess():
     cnf = to_cnf(read_cfg("produced_text/cfg.txt"))
     write_cnf(cnf)
     write_reverse_cnf(to_reverse_cnf(cnf))
-    produce_term('produced_text/cnf.txt')
