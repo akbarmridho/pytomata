@@ -1,9 +1,12 @@
 for(i = 0;i<5;i++){
-    if(arr[i]>5){
-        found = True;
-        break;
-    }
-    else{
-        continue;
+    for(j=0;j<i;j++){
+        aa = 2;
+        if(arr[i]>5){
+            found = True;
+            break;
+        }
+        else{
+            continue;
+        }
     }
 }

@@ -1,7 +1,9 @@
 function func6(x){
     for(i=0;i<n;i++){
-        if(arr[i]==2){
-            i+=2;
+        if(a==b){
+            return 1;
+        }
+        if(a>b && a>0){
             break;
         }
     }
