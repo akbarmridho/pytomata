@@ -99,6 +99,17 @@ def produce_term(file):
     nonterminal_file.close()
 
 
+def to_reverse_cnf(cnf):
+    reverse_cfg = {}
+    for variable, products in cnf.items():
+        for product in products:
+            product_temp = tuple(product)
+            if (not (product_temp in reverse_cfg)):
+                reverse_cfg[product_temp] = set([])
+            reverse_cfg[product_temp].add(variable)
+    return reverse_cfg
+
+
 def write_cnf(cnf):
     file = open('produced_text/cnf.txt', 'w')
     for key in cnf:
@@ -110,7 +121,32 @@ def write_cnf(cnf):
     file.close()
 
 
+def write_reverse_cnf(reversed_cnf):
+    file = open('produced_text/reverse_cnf.txt', 'w')
+    for product, variables in reversed_cnf.items():
+        for variable in variables:
+            product_to_write = ' '.join(map(str, product))
+            file.write(product_to_write + ' <- ' + variable)
+            file.write('\n')
+    file.close()
+
+
+def read_reverse_cnf(r_cnf_filename):
+    file = open(r_cnf_filename, 'r')
+    lines = file.readlines()
+    reverse_cnf = {}
+    for line in lines:
+        unsplit_product, variable = line.rstrip('\n').split(' <- ')
+        product = tuple(unsplit_product.split(' '))
+        if (not (product in reverse_cnf)):
+            reverse_cnf[product] = []
+        reverse_cnf[product].append(variable)
+
+    file.close()
+    return reverse_cnf
+
+
 def preprocess():
     cnf = to_cnf(read_cfg("produced_text/cfg.txt"))
     write_cnf(cnf)
-    produce_term('produced_text/cnf.txt')
+    write_reverse_cnf(to_reverse_cnf(cnf))
