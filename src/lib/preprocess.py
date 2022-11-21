@@ -23,7 +23,6 @@ def to_cnf(cfg):
             if start_symbol in val:
                 cfg['SS'] = [start_symbol]
                 found_start = True
-                print("aaaaa")
                 break
         if (found_start):
             break
