@@ -20,9 +20,10 @@ def to_cnf(cfg):
     found_start = False
     for vals in cfg.values():
         for val in vals:
-            if val == start_symbol:
-                cfg['SS'] = start_symbol
+            if start_symbol in val:
+                cfg['SS'] = [start_symbol]
                 found_start = True
+                print("aaaaa")
                 break
         if (found_start):
             break
