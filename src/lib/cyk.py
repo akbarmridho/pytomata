@@ -77,7 +77,7 @@ def cyk(string, cnf, reverse_cnf, debug=False):
 
     if (debug):
         print_table(table)
-    if ('S' in (table[n-1][0])):
+    if ('SS' in (table[n-1][0])):
         return True
     else:
         return False
