@@ -76,7 +76,14 @@ if __name__ == "__main__":
         for line_number in syntax_error_lines:
             print(
                 f"Found syntax error at line {line_number}: <<{original_split[line_number-1]}>>")
-        tokenized_split = tokenized.split(' ')
+
+        tokenized_split_with_nl = tokenized.split(' ')
+
+        tokenized_split = []
+
+        for each in tokenized_split_with_nl:
+            if each != "nl":
+                tokenized_split.append(each)
 
         tic = time.perf_counter()
         result = cyk(tokenized_split, grammar_rules, reverse_cnf, DEBUG_CYK)
