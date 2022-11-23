@@ -181,6 +181,6 @@ def validate_cnf(cnf: Dict[str, List[List[str]]]):
 
 def preprocess():
     cnf = to_cnf(read_cfg("produced_text/cfg.txt"))
-    validate_cnf(cnf)
     write_cnf(cnf)
     write_reverse_cnf(to_reverse_cnf(cnf))
+    validate_cnf(cnf)

@@ -21,8 +21,10 @@ WHILE -> while
 VAR -> var
 TRUE -> true
 TRY -> try
+DOT -> dot
 
 VARIABLE -> variable
+VARIABLE -> VARIABLE DOT VARIABLE
 
 CBRACKETL -> cbracketl
 CBRACKETR -> cbracketr
@@ -31,7 +33,6 @@ RBRACKETR -> rbracketr
 SBRACKETL -> sbracketl
 SBRACKETR -> sbracketr
 
-NEWLINE -> nl
 SEMICOLON -> semicolon
 COLON -> colon
 
@@ -66,7 +67,7 @@ LOGIC_OPR -> or
 LOGIC_OPR -> EQ_OPR
 ASS_OPR -> minuseq
 ASS_OPR -> pluseq
-ASS_OPR -> divq
+ASS_OPR -> divideeq
 ASS_OPR -> multiplyeq
 ASS_OPR -> poweq
 ASS_OPR -> modeq
@@ -101,9 +102,6 @@ ARRAY -> SBRACKETL ARR_ELS SBRACKETR
 ARR_ELS -> ASSIGNABLE
 ARR_ELS -> ARR_ELS COMMA ARR_ELS
 
-S -> NEWLINE S
-S -> S NEWLINE
-S -> NEWLINE
 S -> BLOCKS S
 S -> BLOCKS
 
