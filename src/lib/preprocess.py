@@ -46,6 +46,7 @@ def to_cnf(cfg):
                 for val in cfg[temp]:
                     if (len(val) == 1 and not val[0].islower()):
                         unit_production.append(temp)
+                        unit_production.append(unit_production[0])
         unit_production.pop(0)
     # for key in cfg:
     #     print (key)
