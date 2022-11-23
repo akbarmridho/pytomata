@@ -51,6 +51,7 @@ if __name__ == "__main__":
             except (FileNotFoundError):
                 print("File tidak ditemukan.")
 
+        tic = time.perf_counter()
         original_split = original_file.split("\n")
 
         tokenized = tokenize(original_file)
@@ -87,13 +88,15 @@ if __name__ == "__main__":
             for each in tokenized_split_with_nl:
                 if each != "nl":
                     tokenized_split.append(each)
-
-            tic = time.perf_counter()
-            result = cyk(tokenized_split, grammar_rules,
-                         reverse_cnf, DEBUG_CYK)
-            if (result):
-                print(f"File {filename} benar secara syntax")
+            if (len(tokenized_split) == 0):
+                result = True
             else:
-                print(f"File {filename} salah secara syntax")
-            toc = time.perf_counter()
-            print(f"File di-parse dalam {toc - tic} detik")
+                result = cyk(tokenized_split, grammar_rules,
+                             reverse_cnf, DEBUG_CYK)
+
+        toc = time.perf_counter()
+        if (result):
+            print(f"File {filename} benar secara syntax")
+        else:
+            print(f"File {filename} salah secara syntax")
+        print(f"File di-parse dalam {toc - tic} detik")
