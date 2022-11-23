@@ -26,6 +26,10 @@ if __name__ == "__main__":
         filename = filepath.split(os.sep)[-1]
         print(f"Checking file {filename}: ", end="")
 
+        if filename[0] == 's':
+            print(" skipping")
+            continue
+
         reader = open(filepath)
         original_file = reader.read()
         reader.close()

@@ -35,8 +35,11 @@ def print_table(table):
 
 
 def cyk(string, cnf, reverse_cnf, debug=False):
+
     n = len(string)
-    print(n)
+
+    if debug:
+        print(n)
 
     table = [[[] for j in range(n)] for i in range(n)]
 

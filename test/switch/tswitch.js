@@ -4,7 +4,6 @@ switch(x){
         break;
     case 2:
         console.log('A');
-        break;
     default:
         console.log('AKFSKJSFKA');
         break;
