@@ -22,7 +22,7 @@ VAR -> var
 TRUE -> true
 TRY -> try
 DOT -> dot
-
+NEWLINE -> nl
 VARIABLE -> variable
 VARIABLE -> VARIABLE DOT VARIABLE
 
