@@ -227,3 +227,17 @@ arith_operation_checker = DFA([
                  string=strlang) for strlang in [NUMBER, VARIABLE]],
     *[Transition(input_state=arith_final_number, result_state=arith_start, string=strlang) for strlang in anything_except_number_variable_ops]
 ])
+
+conditional_start = State(True, True, "Confidional start")
+conditional_wait = State(False, False, "Conditional wait")
+
+anything_except_qmark = all_string_except([QMARK])
+anything_except_colon_nl = all_string_except([COLON, NEWLINE])
+
+conditional_checker = DFA([
+    Transition(conditional_start, conditional_wait, QMARK),
+    *[Transition(conditional_start, conditional_start, strlang)
+      for strlang in anything_except_qmark],
+    Transition(conditional_wait, conditional_start, COLON),
+    *[Transition(conditional_wait, conditional_wait, strlang) for strlang in anything_except_colon_nl]
+])

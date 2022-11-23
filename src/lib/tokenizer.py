@@ -36,6 +36,8 @@ def pipe_debug(src: str, pattern: str, replacement: str) -> str:
 
 
 pipeline: List[Pipe] = [
+    # delete escaped charapter
+    lambda src: re.sub("|".join([r"\\'", r'\\"', r'\\\\']), "", src),
     # delete string comment
     lambda src: re.sub(COMMENT.pattern, lambda x: comment_sub(x), src),
     # add whitespace on symbol
@@ -43,7 +45,10 @@ pipeline: List[Pipe] = [
         symbols_regexp, lambda x: rf" {x.group(0)} ", src),  # type: ignore
     # change variable named number or string to variable
     lambda src: re.sub(r'^number$|^string$', VARIABLE.value, src),
-    lambda src: re.sub(STRING.pattern, STRING.value, src),  # parse string
+    # parse string 3 time to ensure validity (handle edge case like: ' "" ')
+    lambda src: re.sub(STRING.pattern, STRING.value, src),
+    lambda src: re.sub(STRING.pattern, STRING.value, src),
+    lambda src: re.sub(STRING.pattern, STRING.value, src),
     # parse variable
     lambda src: re.sub(VARIABLE.pattern, VARIABLE.value, src),
     # parse invalid variable

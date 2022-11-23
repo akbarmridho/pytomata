@@ -1,7 +1,7 @@
 from lib.preprocess import read_cfg, preprocess, read_reverse_cnf
 from lib.tokenizer import tokenize, pretty_print
 from lib.string import str_to_strlang, NEWLINE
-from lib.dfa import declaration_checker, noitaralced_checker, arith_operation_checker, check_input
+from lib.dfa import declaration_checker, noitaralced_checker, arith_operation_checker, check_input, conditional_checker
 from lib.cyk import cyk
 import time
 
@@ -71,8 +71,11 @@ if __name__ == "__main__":
         arith_error_lines = check_input(
             arith_operation_checker, words, DEBUG_DFA)
 
+        conditional_error_lines = check_input(
+            conditional_checker, words, DEBUG_DFA)
+
         syntax_error_lines = set(
-            decl_error_lines + lced_error_lines + arith_error_lines)
+            decl_error_lines + lced_error_lines + arith_error_lines + conditional_error_lines)
 
         if syntax_error_lines.__len__() != 0:
             print("SYNTAX ERROR AT DFA")
