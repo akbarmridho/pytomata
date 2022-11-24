@@ -18,8 +18,10 @@ def print_table(table):
 
 
 def cyk(string, cnf, reverse_cnf, debug=False, hard_debug=False):
-
     n = len(string)
+
+    if (n == 0):
+        return True
 
     if debug:
         print(n)
