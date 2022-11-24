@@ -9,7 +9,7 @@ function nth_triangle(n) {
   return result;
 }
 
-const n_of_divisor = (num) => {
+function n_of_divisor(num) {
   let small_factors = [1, 2, 2, 3, 2, 4];
   if (num <= 6) {
     return small_factors[num - 1];
@@ -26,7 +26,7 @@ const n_of_divisor = (num) => {
     }
   }
   return number_of_divisor;
-};
+}
 
 while (n_of_divisor(triangle_number) <= 500) {
   increment++;
