@@ -24,16 +24,18 @@ def cyk(string, cnf, reverse_cnf, debug=False, hard_debug=False):
     if debug:
         print(n)
 
-    table = [[[] for j in range(n)] for i in range(n)]
-
+    table = [[set([]) for j in range(n)] for i in range(n)]
     for j in range(n):
-        table[0][j] = producer_of([string[j]], cnf)
+        try:
+            table[0][j] = reverse_cnf[tuple([string[j]])]
+        except:
+            table[0][j] = set([])
 
     for i in range(1, n):
         for j in range(0, n-i):
             for k in range(0, i):
-                mul_result_list = product(
-                    table[k][j], table[i-k-1][j+k+1])
+                mul_result_list = set(product(
+                    table[k][j], table[i-k-1][j+k+1]))
                 if (hard_debug):
                     print(f"{i} {j}")
                     print("Operator")
@@ -45,7 +47,8 @@ def cyk(string, cnf, reverse_cnf, debug=False, hard_debug=False):
                     print(mul_result_list)
                 for mul_result in mul_result_list:
                     try:
-                        table[i][j].extend(reverse_cnf[tuple(mul_result)])
+                        table[i][j] = table[i][j].union(
+                            reverse_cnf[tuple(mul_result)])
                     except:
                         pass
                 if (hard_debug):
