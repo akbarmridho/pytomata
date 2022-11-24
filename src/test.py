@@ -57,20 +57,27 @@ if __name__ == "__main__":
         syntax_error_lines = set(
             decl_error_lines + lced_error_lines + arith_error_lines + conditional_error_lines)
 
-        result = syntax_error_lines.__len__() == 0
+        dfa_result = syntax_error_lines.__len__() == 0
 
-        if result:
-            tokenized_split_with_nl = tokenized.split(' ')
-            tokenized_split = []
+        tokenized_split_with_nl = tokenized.split(' ')
+        tokenized_split = []
 
-            for each in tokenized_split_with_nl:
-                if each != "nl":
-                    tokenized_split.append(each)
-            if (len(tokenized_split) == 0):
+        for each in tokenized_split_with_nl:
+            if each != "nl":
+                tokenized_split.append(each)
+        if (len(tokenized_split) == 0):
+            cyk_result = True
+        else:
+            cyk_result = cyk(tokenized_split, grammar_rules,
+                             reverse_cnf, DEBUG_CYK)
+
+        if not dfa_result:
+            if cyk_result:
                 result = True
             else:
-                result = cyk(tokenized_split, grammar_rules,
-                             reverse_cnf, DEBUG_CYK)
+                result = False
+        else:
+            result = dfa_result and cyk_result
 
         toc = time.perf_counter()
 

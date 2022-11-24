@@ -77,25 +77,37 @@ if __name__ == "__main__":
         syntax_error_lines = set(
             decl_error_lines + lced_error_lines + arith_error_lines + conditional_error_lines)
 
-        if syntax_error_lines.__len__() != 0:
-            print("SYNTAX ERROR AT DFA")
+        dfa_result = syntax_error_lines.__len__() == 0
 
-        for line_number in syntax_error_lines:
-            print(
-                f"Found syntax error at line {line_number}: <<{original_split[line_number-1]}>>")
+        tokenized_split_with_nl = tokenized.split(' ')
+        tokenized_split = []
 
-        if syntax_error_lines.__len__() == 0:
-            tokenized_split_with_nl = tokenized.split(' ')
-            tokenized_split = []
+        for each in tokenized_split_with_nl:
+            if each != "nl":
+                tokenized_split.append(each)
+        if (len(tokenized_split) == 0):
+            cyk_result = True
+        else:
+            cyk_result = cyk(tokenized_split, grammar_rules,
+                             reverse_cnf, DEBUG_CYK)
 
-            for each in tokenized_split_with_nl:
-                if each != "nl":
-                    tokenized_split.append(each)
-            if (len(tokenized_split) == 0):
+        if not dfa_result:
+            if cyk_result:
                 result = True
             else:
-                result = cyk(tokenized_split, grammar_rules,
-                             reverse_cnf, DEBUG_CYK)
+                result = False
+        else:
+            result = dfa_result and cyk_result
+
+        if DEBUG_DFA:
+            print(f"DFA Result {dfa_result}")
+            print(f"CYK Result {cyk_result}")
+
+        if not dfa_result and not result:
+            print("SYNTAX ERROR AT DFA")
+            for line_number in syntax_error_lines:
+                print(
+                    f"Found syntax error at line {line_number}: <<{original_split[line_number-1]}>>")
 
         toc = time.perf_counter()
         if (result):
