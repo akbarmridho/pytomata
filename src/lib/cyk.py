@@ -55,7 +55,7 @@ def cyk(string, cnf, reverse_cnf, debug=False, hard_debug=False):
                     print(mul_result_list)
                 for mul_result in mul_result_list:
                     try:
-                        table[i][j] + reverse_cnf[tuple(mul_result)]
+                        table[i][j].extend(reverse_cnf[tuple(mul_result)])
                     except:
                         pass
                 if (hard_debug):
