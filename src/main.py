@@ -42,7 +42,6 @@ if __name__ == "__main__":
     if (is_preprocess == "y"):
         preprocess()
 
-    grammar_rules = read_cfg("produced_text/cnf.txt")
     reverse_cnf = read_reverse_cnf("produced_text/reverse_cnf.txt")
 
     # Memulai keberjalanan program
@@ -99,7 +98,7 @@ if __name__ == "__main__":
                 tokenized_split.append(each)
 
         # Parsing dengan menggunakan algoritma CYK
-        cyk_result = cyk(tokenized_split, grammar_rules,
+        cyk_result = cyk(tokenized_split,
                          reverse_cnf, DEBUG_CYK, DEBUG_CYK_HARD)
 
         result = cyk_result

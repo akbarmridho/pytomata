@@ -17,7 +17,7 @@ def print_table(table):
         print("\n")
 
 
-def cyk(string, cnf, reverse_cnf, debug=False, hard_debug=False):
+def cyk(string, reverse_cnf, debug=False, hard_debug=False):
     n = len(string)
 
     if (n == 0):
