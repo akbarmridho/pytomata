@@ -1,15 +1,8 @@
-def multiply_cell(list_1, list_2):
-    result = []
-    if (len(list_1) == 0 or len(list_2) == 0):
-        return result
+from itertools import product
 
-    for el_1 in list_1:
-        for el_2 in list_2:
-            product = []
-            product.append(el_1)
-            product.append(el_2)
-            result.append(product)
-    return result
+
+def multiply_cell(list_1, list_2):
+    return product(list_1, list_2)
 
 
 def producer_of(term, cnf):
@@ -31,8 +24,6 @@ def print_table(table):
         print(table[i])
         print("\n")
 
-# print(multiply_cell(['Bruh', 'Bruh2'], ['Bruh2', 'Bruh3']))
-
 
 def cyk(string, cnf, reverse_cnf, debug=False):
 
@@ -48,7 +39,6 @@ def cyk(string, cnf, reverse_cnf, debug=False):
 
     for i in range(1, n):
         for j in range(0, n-i):
-            cell_content = []
             for k in range(0, i):
                 multiplied_1, multiplied_2 = cell_pair_to_check(i, j, k)
                 i1, j1 = multiplied_1
@@ -65,18 +55,15 @@ def cyk(string, cnf, reverse_cnf, debug=False):
                     print(mul_result_list)
                 for mul_result in mul_result_list:
                     try:
-                        added_list = reverse_cnf[tuple(mul_result)]
-                    except (KeyError):
-                        added_list = []
-                    cell_content = cell_content + added_list
+                        table[i][j].extend(reverse_cnf[tuple(mul_result)])
+                    except:
+                        pass
                 if (debug):
                     print("\n")
             if (debug):
                 print("Cell Content")
-                print(cell_content)
+                print(table[i][j])
                 print("\n\n")
-
-            table[i][j] = cell_content
 
     if (debug):
         print_table(table)
