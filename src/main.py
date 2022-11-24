@@ -26,6 +26,7 @@ if __name__ == "__main__":
     DEBUG_DFA = debug_active
     DEBUG_CYK = debug_active
     DEBUG_CYK_HARD = hard_debug_active
+    SHOW_TOKENIZED = debug_active
 
     print("Jika telah dilakukan perubahan pada file CFG, maka disarankan melakukan preprocess untuk meng-update data yang digunakan.")
 
