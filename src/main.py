@@ -13,12 +13,14 @@ if __name__ == "__main__":
     SHOW_TOKENIZED = True
 
     is_debug = input("Activate debug mode? (Y/N) ").lower()
-    is_hard_debug = input("Activate hardcore debug mode? (Y/N) ").lower()
     while (is_debug != "y" and is_debug != "n"):
         print("Jawab dengan benar!")
         is_debug = input("Preprocess? (Y/N) ").lower()
 
     debug_active = is_debug == "y"
+    hard_debug_active = False
+    if debug_active:
+        is_hard_debug = input("Activate hardcore debug mode? (Y/N) ").lower()
     hard_debug_active = is_hard_debug == "y"
 
     DEBUG_DFA = debug_active
@@ -58,9 +60,6 @@ if __name__ == "__main__":
         original_split = original_file.split("\n")
 
         tokenized = tokenize(original_file)
-
-        if SHOW_TOKENIZED:
-            pretty_print(tokenized)
 
         tokenized_split = tokenized.split(" ")
         words = str_to_strlang(tokenized)
@@ -105,6 +104,9 @@ if __name__ == "__main__":
         if DEBUG_DFA:
             print(f"DFA Result {dfa_result}")
             print(f"CYK Result {cyk_result}")
+
+        if SHOW_TOKENIZED:
+            pretty_print(tokenized)
 
         if not dfa_result and not result:
             print("SYNTAX ERROR AT DFA")

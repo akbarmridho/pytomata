@@ -1,4 +1,4 @@
-// point_and_path[5] = 1;
+var point_and_path = {};
 
 function point_path(x, y) {
   // bruh = point_and_path[(x, y)];
