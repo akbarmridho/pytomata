@@ -168,7 +168,7 @@ symbols_regexp = "|".join(symbol.pattern for symbol in symbols)
 """
 STRING = StringLanguage(
     value="string", pattern=r"|".join(['"[^"\n\r]*"|"[^"]*[\r\n]', r"'[^'\n\r]*'|'[^']*[\r\n]", r"`[^`]*`|`[^`]*$"]))  # todo: handle ketika ada ", ', atau ` di dalam string`
-NUMBER = StringLanguage(value="number", pattern=r"\d+\.?\d*|\.\d+")
+NUMBER = StringLanguage(value="number", pattern=r"\d+( \. )?\d*|( \. )\d+")
 COMMENT = StringLanguage(
     value="", pattern=r"/\/\*[^\*\/]*\*\/|\/\*[^\*\/]*$|\/\/.*[\r\n]")
 
