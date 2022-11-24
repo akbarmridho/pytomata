@@ -146,8 +146,8 @@ def read_reverse_cnf(r_cnf_filename):
         unsplit_product, variable = line.rstrip('\n').split(' <- ')
         product = tuple(unsplit_product.split(' '))
         if (not (product in reverse_cnf)):
-            reverse_cnf[product] = []
-        reverse_cnf[product].append(variable)
+            reverse_cnf[product] = set([])
+        reverse_cnf[product].add(variable)
 
     file.close()
     return reverse_cnf
