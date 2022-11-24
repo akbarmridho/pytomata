@@ -49,7 +49,7 @@ def cyk(string, reverse_cnf, debug=False, hard_debug=False):
                     print("\n")
             if (hard_debug):
                 print("Cell Content")
-                print(table[i][j])
+                print(set(table[i][j]))
                 print("\n\n")
 
     if (debug):
