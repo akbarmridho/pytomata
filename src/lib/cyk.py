@@ -1,10 +1,6 @@
 from itertools import product
 
 
-def multiply_cell(list_1, list_2):
-    return product(list_1, list_2)
-
-
 def producer_of(term, cnf):
     producer_list = []
     for rhs, lhs in cnf.items():
@@ -36,7 +32,7 @@ def cyk(string, cnf, reverse_cnf, debug=False, hard_debug=False):
     for i in range(1, n):
         for j in range(0, n-i):
             for k in range(0, i):
-                mul_result_list = multiply_cell(
+                mul_result_list = product(
                     table[k][j], table[i-k-1][j+k+1])
                 if (hard_debug):
                     print(f"{i} {j}")
