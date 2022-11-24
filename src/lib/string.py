@@ -114,7 +114,7 @@ RBRACKETL = StringLanguage(value="rbracketl", pattern=r"\(")
 RBRACKETR = StringLanguage(value="rbracketr", pattern=r"\)")
 SBRACKETL = StringLanguage(value="sbracketl", pattern=r"\[")
 SBRACKETR = StringLanguage(value="sbracketr", pattern=r"\]")
-SHIFT = StringLanguage(value="shift", pattern=">>|<<|>>>")
+SHIFT = StringLanguage(value="shift", pattern=">>>|>>|<<")
 XOR = StringLanguage(value="xor", pattern="\^")
 
 
