@@ -54,7 +54,7 @@ pipeline: List[Pipe] = [
     # parse invalid variable
     lambda src: re.sub(INVALID_VARIABLE.pattern, INVALID_VARIABLE.value, src),
     # parse number
-    lambda src: re.sub(NUMBER.pattern, NUMBER.value, src),
+    lambda src: re.sub(NUMBER.pattern, f" {NUMBER.value} ", src),
     lambda src: re.sub(ELSE_IF.pattern, lambda x: elif_sub(x), src),
     # # replace symbols
     *[
