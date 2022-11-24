@@ -19,7 +19,7 @@ for (let i = 0; i < string_grid.length; i++) {
     grid.push(list_of_line);
     list_of_line = [];
   }
-}
+
 
 function vertical_product(grid, n_number) {
   let biggest_product = 0;

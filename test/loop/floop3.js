@@ -13,5 +13,5 @@ while (i < n) {
       i++;
     }
   }
-  break;
 }
+break;

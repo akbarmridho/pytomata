@@ -6,6 +6,7 @@ for (i = 0; i < 5; i++) {
       break;
     } else {
       continue;
+      return bruh;
     }
   }
 }
