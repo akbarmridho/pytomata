@@ -18,7 +18,7 @@ if __name__ == "__main__":
         is_debug = input("Preprocess? (Y/N) ").lower()
 
     debug_active = is_debug == "y"
-    hard_debug_active = False
+    is_hard_debug = False
     if debug_active:
         is_hard_debug = input("Activate hardcore debug mode? (Y/N) ").lower()
     hard_debug_active = is_hard_debug == "y"
