@@ -1,5 +1,5 @@
 from lib.preprocess import read_cfg, preprocess, read_reverse_cnf
-from lib.tokenizer import tokenize, pretty_print
+from lib.tokenizer import tokenize
 from lib.string import str_to_strlang, NEWLINE
 from lib.dfa import declaration_checker, noitaralced_checker, arith_operation_checker, check_input, conditional_checker
 from lib.cyk import cyk
@@ -24,7 +24,7 @@ if __name__ == "__main__":
     for filepath in get_files("../test"):
 
         filename = filepath.split(os.sep)[-1]
-        print(f"Checking file {filename}: ", end="")
+        print(f"Checking file {filename}: ", end="", flush=True)
 
         if filename[0] == 's':
             print(" skipping")
@@ -78,8 +78,13 @@ if __name__ == "__main__":
         expect = "valid" if filename[0] == 't' else "invalid"
         is_pass = "PASS" if res == expect else "FAIL"
 
+        if toc-tic < 1:
+            parse_time = f"{(toc-tic)*1000:.2f}ms"
+        else:
+            parse_time = f"{toc-tic:.2f}s"
+
         print(
-            f"expected {expect} got {res} parsed in {(toc-tic)*1000:.2f}ms {is_pass}")
+            f"expected {expect} got {res} parsed in {parse_time} {is_pass}")
 
         total_count += 1
 
