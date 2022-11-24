@@ -13,10 +13,6 @@ def producer_of(term, cnf):
     return producer_list
 
 
-def cell_pair_to_check(i, j, k):
-    return ((k, j), (i-k-1, j+k+1))
-
-
 def print_table(table):
     table_height = len(table)
     for i in range(table_height - 1, -1, -1):
@@ -40,17 +36,15 @@ def cyk(string, cnf, reverse_cnf, debug=False, hard_debug=False):
     for i in range(1, n):
         for j in range(0, n-i):
             for k in range(0, i):
-                multiplied_1, multiplied_2 = cell_pair_to_check(i, j, k)
-                i1, j1 = multiplied_1
-                i2, j2 = multiplied_2
-                mul_result_list = multiply_cell(table[i1][j1], table[i2][j2])
+                mul_result_list = multiply_cell(
+                    table[k][j], table[i-k-1][j+k+1])
                 if (hard_debug):
                     print(f"{i} {j}")
                     print("Operator")
-                    print(multiplied_1)
-                    print(table[i1][j1])
-                    print(multiplied_2)
-                    print(table[i2][j2])
+                    print(k, j)
+                    print(table[k][j])
+                    print(i-k-1, j+k+1)
+                    print(table[i-k-1][j+k+1])
                     print("Result")
                     print(mul_result_list)
                 for mul_result in mul_result_list:
