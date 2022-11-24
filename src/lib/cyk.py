@@ -1,14 +1,6 @@
 from itertools import product
 
 
-def producer_of(term, cnf):
-    producer_list = []
-    for rhs, lhs in cnf.items():
-        if term in lhs:
-            producer_list.append(rhs)
-    return producer_list
-
-
 def print_table(table):
     table_height = len(table)
     for i in range(table_height - 1, -1, -1):
