@@ -13,14 +13,17 @@ if __name__ == "__main__":
     SHOW_TOKENIZED = True
 
     is_debug = input("Activate debug mode? (Y/N) ").lower()
+    is_hard_debug = input("Activate hardcore debug mode? (Y/N) ").lower()
     while (is_debug != "y" and is_debug != "n"):
         print("Jawab dengan benar!")
         is_debug = input("Preprocess? (Y/N) ").lower()
 
     debug_active = is_debug == "y"
+    hard_debug_active = is_hard_debug == "y"
 
     DEBUG_DFA = debug_active
     DEBUG_CYK = debug_active
+    DEBUG_CYK_HARD = hard_debug_active
 
     print("Jika telah dilakukan perubahan pada file CFG, maka disarankan melakukan preprocess untuk meng-update data yang digunakan.")
 
@@ -89,7 +92,7 @@ if __name__ == "__main__":
             cyk_result = True
         else:
             cyk_result = cyk(tokenized_split, grammar_rules,
-                             reverse_cnf, DEBUG_CYK)
+                             reverse_cnf, DEBUG_CYK, DEBUG_CYK_HARD)
 
         if not dfa_result:
             if cyk_result:

@@ -25,7 +25,7 @@ def print_table(table):
         print("\n")
 
 
-def cyk(string, cnf, reverse_cnf, debug=False):
+def cyk(string, cnf, reverse_cnf, debug=False, hard_debug=False):
 
     n = len(string)
 
@@ -44,7 +44,7 @@ def cyk(string, cnf, reverse_cnf, debug=False):
                 i1, j1 = multiplied_1
                 i2, j2 = multiplied_2
                 mul_result_list = multiply_cell(table[i1][j1], table[i2][j2])
-                if (debug):
+                if (hard_debug):
                     print(f"{i} {j}")
                     print("Operator")
                     print(multiplied_1)
@@ -58,9 +58,9 @@ def cyk(string, cnf, reverse_cnf, debug=False):
                         table[i][j].extend(reverse_cnf[tuple(mul_result)])
                     except:
                         pass
-                if (debug):
+                if (hard_debug):
                     print("\n")
-            if (debug):
+            if (hard_debug):
                 print("Cell Content")
                 print(table[i][j])
                 print("\n\n")
