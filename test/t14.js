@@ -6,7 +6,7 @@ function chainlength(num) {
   let current_num = num;
   let length_of_chain = 1;
   while (current_num > 1) {
-    if (current_num in number_and_length) {
+    if (number_and_length.hasOwnProperty(current_num)) {
       length_of_chain -= 1;
       length_of_chain += number_and_length[current_num];
       break;
