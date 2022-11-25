@@ -8,11 +8,6 @@ import os
 import time
 
 if __name__ == "__main__":
-    # Initialize grammar rules
-    DEBUG_DFA = False
-    DEBUG_DFA = False
-    DEBUG_CYK = False
-
     preprocess()
 
     grammar_rules = read_cfg("produced_text/cnf.txt")
@@ -44,15 +39,15 @@ if __name__ == "__main__":
 
         ln_total = words.count(NEWLINE)
 
-        decl_error_lines = check_input(declaration_checker, words, DEBUG_DFA)
+        decl_error_lines = check_input(declaration_checker, words, False)
         words.reverse()
-        lced_error_lines = check_input(noitaralced_checker, words, DEBUG_DFA)
+        lced_error_lines = check_input(noitaralced_checker, words, False)
         words.reverse()
         arith_error_lines = check_input(
-            arith_operation_checker, words, DEBUG_DFA)
+            arith_operation_checker, words, False)
 
         conditional_error_lines = check_input(
-            conditional_checker, words, DEBUG_DFA)
+            conditional_checker, words, False)
 
         syntax_error_lines = set(
             decl_error_lines + lced_error_lines + arith_error_lines + conditional_error_lines)
@@ -68,8 +63,7 @@ if __name__ == "__main__":
         if (len(tokenized_split) == 0):
             cyk_result = True
         else:
-            cyk_result = cyk(tokenized_split, grammar_rules,
-                             reverse_cnf, DEBUG_CYK)
+            cyk_result = cyk(tokenized_split, reverse_cnf, False)
 
         if not dfa_result:
             if cyk_result:

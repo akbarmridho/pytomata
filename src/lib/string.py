@@ -71,7 +71,8 @@ reserved_words: List[StringLanguage] = [
     WHILE
 ]
 
-reserved_words_regexp = r"|".join([word.pattern for word in reserved_words])
+reserved_words_regexp = r"|".join(
+    [word.pattern for word in reserved_words])
 
 """Symbols
 """
@@ -174,8 +175,10 @@ COMMENT = StringLanguage(
 
 INVALID_VARIABLE = StringLanguage(
     value="number variable", pattern=r"[0-9]+[a-zA-Z_]+[a-zA-Z_0-9]*\w*")
+# VARIABLE = StringLanguage(
+# value="variable", pattern=rf"\b(?!{reserved_words_regexp}|^variable$|^string$\b)[a-zA-Z_]+[a-zA-Z0-9_]*")
 VARIABLE = StringLanguage(
-    value="variable", pattern=rf"\b(?!{reserved_words_regexp}|variable|string\b)[a-zA-Z_]+[a-zA-Z0-9_]*")
+    value="variable", pattern=fr"\b(?!(?:{reserved_words_regexp}|variable|string)\b)[a-zA-Z_]+[a-zA-Z0-9_]*")
 
 language = [STRING, NUMBER, VARIABLE]
 language.extend(reserved_words)
