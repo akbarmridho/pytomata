@@ -1,1 +1,1 @@
-let bla = 2 + x + (x + 6) ? "t" : x + 9 ? "b";
+let bla = bruh ? bruh : bruh ? bruh : bruh ? bruh : bruh;
