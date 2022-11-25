@@ -7,6 +7,12 @@ function tiit() {
     if (censored) {
       return 3;
     } else {
+      while (bruh) {
+        for (i = 0; i < 9; i++) {
+          return bruh;
+        }
+        return bruh;
+      }
       return 2;
     }
   } else if (x == 32) {
